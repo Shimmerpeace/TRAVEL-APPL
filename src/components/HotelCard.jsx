@@ -1,3 +1,4 @@
+//components/HotelCard.jsx
 import Link from "next/link";
 
 export default function HotelCard({ hotel }) {

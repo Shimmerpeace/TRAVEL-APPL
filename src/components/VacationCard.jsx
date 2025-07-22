@@ -1,3 +1,4 @@
+//components/VacationCard.jsx
 import Link from "next/link";
 
 export default function VacationCard({ vacation }) {

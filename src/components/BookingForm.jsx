@@ -1,3 +1,4 @@
+//components/BookingForm
 import { useState } from "react";
 
 function BookingForm({ type, id }) {
@@ -22,6 +23,7 @@ function BookingForm({ type, id }) {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        
         <input
           placeholder="name"
           value={user}
