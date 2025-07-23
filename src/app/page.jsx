@@ -1,8 +1,6 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
-import NavBar from "@/components/NavBar";
 import FlightCard from "@/components/FlightCard";
 import HotelCard from "@/components/HotelCard";
 import VacationCard from "@/components/VacationCard";
@@ -46,17 +44,18 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <NavBar />
-
       <header className="text-center py-6 bg-blue-600 text-white mb-6">
-        <h1 className="text-3xl font-bold">Book Flights, Hotels, and Vacation Packages</h1>
+        <h1 className="text-3xl font-bold">
+          Book Flights, Hotels, and Vacation Packages
+        </h1>
       </header>
 
       <main className="container mx-auto px-4 space-y-16">
-
         {/* Flights Section */}
         <section id="flights">
-          <h2 className="text-2xl font-semibold mb-4 border-b pb-2 border-blue-600">Flights</h2>
+          <h2 className="text-2xl font-semibold mb-4 border-b pb-2 border-blue-600">
+            Flights
+          </h2>
           <div className="grid gap-4 md:grid-cols-3">
             {flights.length === 0 && <p>No flights available.</p>}
             {flights.map((flight) => (
@@ -68,7 +67,9 @@ export default function Home() {
 
         {/* Hotels Section */}
         <section id="hotels">
-          <h2 className="text-2xl font-semibold mb-4 border-b pb-2 border-green-600">Hotels</h2>
+          <h2 className="text-2xl font-semibold mb-4 border-b pb-2 border-green-600">
+            Hotels
+          </h2>
           <div className="grid gap-4 md:grid-cols-3">
             {hotels.length === 0 && <p>No hotels available.</p>}
             {hotels.map((hotel) => (
@@ -80,7 +81,9 @@ export default function Home() {
 
         {/* Vacations Section */}
         <section id="vacations">
-          <h2 className="text-2xl font-semibold mb-4 border-b pb-2 border-purple-600">Vacation Packages</h2>
+          <h2 className="text-2xl font-semibold mb-4 border-b pb-2 border-purple-600">
+            Vacation Packages
+          </h2>
           <div className="grid gap-4 md:grid-cols-3">
             {vacations.length === 0 && <p>No vacation packages available.</p>}
             {vacations.map((vacation) => (
@@ -90,7 +93,6 @@ export default function Home() {
           <AddVacationForm onAdded={handleAdded} />
         </section>
       </main>
-     
     </div>
   );
 }

@@ -13,3 +13,4 @@ const VacationSchema = new Schema({
 });
 
 export default mongoose.models.Vacation || mongoose.model("Vacation", VacationSchema);
+

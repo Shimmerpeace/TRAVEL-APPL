@@ -1,11 +1,11 @@
 //components/AddVcationForm.jsx
 "use client";
-
 import { useState } from "react";
 
 export default function AddVacationForm({ onAdded }) {
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -18,7 +18,7 @@ export default function AddVacationForm({ onAdded }) {
       const res = await fetch("/api/vacations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, description }),
+        body: JSON.stringify({ title, description, price }),
       });
 
       if (!res.ok) {
@@ -26,8 +26,10 @@ export default function AddVacationForm({ onAdded }) {
         throw new Error(data.error || "Failed to add vacation package");
       }
 
-      setName("");
+      setTitle("");
       setDescription("");
+      setPrice("");
+      router.refresh(); // Refresh data on current page (Next.js 13+ App Router)
       if (onAdded) onAdded();
     } catch (err) {
       setError(err.message);
@@ -43,8 +45,8 @@ export default function AddVacationForm({ onAdded }) {
       <input
         className="block w-full mb-2 p-2 border rounded"
         placeholder="Vacation Package Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
         required
       />
       <textarea
@@ -52,6 +54,13 @@ export default function AddVacationForm({ onAdded }) {
         placeholder="Vacation Package Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
+        required
+      />
+      <input
+        className="block w-full mb-2 p-2 border rounded"
+        placeholder="Vacation Package Price"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
         required
       />
       <button

@@ -3,13 +3,14 @@ import { databaseConnection } from "@/library/dataBaseConnect";
 import Flight from "@/models/Flight";
 import Hotel from "@/models/Hotel";
 import Vacation from "@/models/Vacation";
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
     const { type, id, user, email, details } = await req.json();
 
     if (!type || !id || !user || !email || !details) {
-      return new Response(
+      return new NextResponse(
         JSON.stringify({ success: false, error: "Missing required fields" }),
         { status: 400 }
       );
@@ -30,14 +31,14 @@ export async function POST(req) {
         item = await Vacation.findById(id);
         break;
       default:
-        return new Response(
+        return new NextResponse(
           JSON.stringify({ success: false, error: "Invalid booking type" }),
           { status: 400 }
         );
     }
 
     if (!item) {
-      return new Response(
+      return new NextResponse(
         JSON.stringify({ success: false, error: `${type.slice(0, -1).toUpperCase()} not found` }),
         { status: 404 }
       );
@@ -48,9 +49,9 @@ export async function POST(req) {
 
     // e.g. await Booking.create({ type, itemId: id, user, email, details });
 
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
+    return new NextResponse(JSON.stringify({ success: true }), { status: 200 });
   } catch (error) {
-    return new Response(
+    return new NextResponse(
       JSON.stringify({ success: false, error: error.message || "Server error" }),
       { status: 500 }
     );

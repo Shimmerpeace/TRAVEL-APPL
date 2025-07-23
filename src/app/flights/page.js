@@ -2,8 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import NavBar from "@/components/NavBar";
+import FlightCard from "@/components/FlightCard";
 
 export default function FlightsListing() {
   const [flights, setFlights] = useState([]);
@@ -18,13 +17,11 @@ export default function FlightsListing() {
 
   return (
     <div>
-      <NavBar />
-      <h1>All Flights</h1>
+      
+      <h1>Available Flights</h1>
       <ul>
         {flights.map((flight) => (
-          <li key={flight._id}>
-            <Link href={`/flights/${flight._id}`}>{flight.name}</Link>
-          </li>
+          <FlightCard key={flight._id} flight={flight} />
         ))}
       </ul>
     </div>

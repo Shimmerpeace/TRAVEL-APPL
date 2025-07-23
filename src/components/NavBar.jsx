@@ -7,13 +7,13 @@ export default function NavBar() {
       <Link href="/" className="text-blue-700 font-semibold hover:underline">
         Home
       </Link>
-      <a href="#flights" className="text-gray-700 hover:text-blue-700">
+      <a href="/flights" className="text-gray-700 hover:text-blue-700">
         Flights
       </a>
-      <a href="#hotels" className="text-gray-700 hover:text-green-700">
+      <a href="/hotels" className="text-gray-700 hover:text-green-700">
         Hotels
       </a>
-      <a href="#vacations" className="text-gray-700 hover:text-purple-700">
+      <a href="/vacations" className="text-gray-700 hover:text-purple-700">
         Vacation Packages
       </a>
     </nav>

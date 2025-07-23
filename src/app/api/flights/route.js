@@ -9,9 +9,12 @@ export async function GET() {
     const flights = await Flight.find({}).lean();
     return new NextResponse(JSON.stringify(flights), { status: 200 });
   } catch (error) {
-    return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+    return new NextResponse(JSON.stringify({ error: error.message }), {
+      status: 500,
+    });
   }
 }
+
 
 export async function POST(req) {
   try {
@@ -19,8 +22,11 @@ export async function POST(req) {
     const body = await req.json();
 
     // Validate body fields as needed
-    if (!body.name || !body.description) {
-      return new NextResponse(JSON.stringify({ error: "Missing required fields" }), { status: 400 });
+    if (!body.airline || !body.from || !body.to || !body.departureTime || !body.arrivalTime) {
+      return new NextResponse(
+        JSON.stringify({ error: "Missing required fields" }),
+        { status: 400 }
+      );
     }
 
     const newFlight = new Flight(body);
@@ -28,6 +34,8 @@ export async function POST(req) {
 
     return new NextResponse(JSON.stringify(newFlight), { status: 201 });
   } catch (error) {
-    return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+    return new NextResponse(JSON.stringify({ error: error.message }), {
+      status: 500,
+    });
   }
 }

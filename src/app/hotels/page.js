@@ -2,8 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import NavBar from "@/components/NavBar";
+import HotelCard from "@/components/HotelCard";
 
 export default function HotelsListing() {
   const [hotels, setHotels] = useState([]);
@@ -18,13 +17,10 @@ export default function HotelsListing() {
 
   return (
     <div>
-      <NavBar />
       <h1>All Hotels</h1>
       <ul>
         {hotels.map((hotel) => (
-          <li key={hotel._id}>
-            <Link href={`/hotels/${hotel._id}`}>{hotel.name}</Link>
-          </li>
+          <HotelCard key={hotel._id} hotel={hotel} />
         ))}
       </ul>
     </div>

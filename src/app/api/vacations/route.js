@@ -5,18 +5,34 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    // Connect to MongoDB
     await databaseConnection();
-
-    // Fetch all vacations using Mongoose and convert to plain JS objects
     const vacations = await Vacation.find().lean();
-
-    // Return JSON response
     return NextResponse.json(vacations, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: 'Failed to fetch vacations', error: error.message },
       { status: 500 }
     );
+  }
+}
+
+export async function POST(req) {
+  try {
+    await databaseConnection();
+    const data = await req.json();
+    // Validate body fields as needed
+    if (!data.title || !data.description) {
+      return new NextResponse(
+        JSON.stringify({ error: "Missing required fields" }),
+        { status: 400 }
+      );
+    }
+    const newVacation = new Vacation(data);
+    await newVacation.save();
+    return new NextResponse(JSON.stringify(newVacation), { status: 201 });
+  } catch (error) {
+    return new NextResponse(JSON.stringify({ error: error.message }), {
+      status: 500,
+    });
   }
 }
