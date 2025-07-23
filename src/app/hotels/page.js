@@ -20,7 +20,9 @@ export default function HotelsListing() {
       <h1>All Hotels</h1>
       <ul>
         {hotels.map((hotel) => (
-          <HotelCard key={hotel._id} hotel={hotel} />
+          <li key={hotel._id}>
+          <HotelCard  hotel={hotel} />
+          </li>
         ))}
       </ul>
     </div>

@@ -17,11 +17,12 @@ export default function FlightsListing() {
 
   return (
     <div>
-      
       <h1>Available Flights</h1>
       <ul>
         {flights.map((flight) => (
-          <FlightCard key={flight._id} flight={flight} />
+          <li key={flight._id}>
+            <FlightCard flight={flight} />
+          </li>
         ))}
       </ul>
     </div>

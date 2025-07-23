@@ -1,4 +1,4 @@
-//lib/dataBase.js
+//lib/dataBaseConnect.js
 // connects mongodb to mongoose
 import mongoose from "mongoose";
 import assert from "node:assert";

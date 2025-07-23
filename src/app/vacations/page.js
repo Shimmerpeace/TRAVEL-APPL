@@ -21,7 +21,9 @@ export default function VacationsListing() {
       <h1>All Vacations</h1>
       <ul>
         {vacations.map((vacation) => (
-          <VacationCard key={vacation._id} vacation={vacation} />
+          <li key={vacation._id}>
+          <VacationCard  vacation={vacation} />
+          </li>
         ))}
       </ul>
     </div>
