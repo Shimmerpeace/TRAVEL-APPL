@@ -17,7 +17,7 @@ export default function HotelsListing() {
 
   return (
     <div>
-      <h1>All Hotels</h1>
+      <h1 className="text-2xl font-bold mb-6 text-gray-800">All Hotels</h1>
       <ul>
         {hotels.map((hotel) => (
           <li key={hotel._id}>

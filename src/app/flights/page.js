@@ -17,7 +17,7 @@ export default function FlightsListing() {
 
   return (
     <div>
-      <h1>Available Flights</h1>
+      <h1 className="text-2xl font-bold mb-6 text-gray-800">Available Flights</h1>
       <ul>
         {flights.map((flight) => (
           <li key={flight._id}>

@@ -18,7 +18,7 @@ export default function VacationsListing() {
 
   return (
     <div>
-      <h1>All Vacations</h1>
+      <h1 className="text-2xl font-bold mb-6 text-gray-800">All Vacations</h1>
       <ul>
         {vacations.map((vacation) => (
           <li key={vacation._id}>

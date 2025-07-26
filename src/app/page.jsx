@@ -48,7 +48,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-     <header className="text-center py-6 bg-blue-600 text-white mb-6 relative">
+      <header className="text-center py-6 bg-blue-600 text-white mb-6 relative">
         <h1 className="text-3xl font-bold">
           Book Flights, Hotels, and Vacation Packages
         </h1>

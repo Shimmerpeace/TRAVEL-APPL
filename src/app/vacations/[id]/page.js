@@ -3,7 +3,6 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import NavBar from "@/components/NavBar";
 import BookingForm from "@/components/BookingForm";
 
 export default function VacationDetail() {
@@ -23,7 +22,6 @@ export default function VacationDetail() {
 
   return (
     <div>
-      <NavBar />
       <h2>{vacation.name}</h2>
       <p>{vacation.description}</p>
       <BookingForm type="vacations" id={vacation._id} />

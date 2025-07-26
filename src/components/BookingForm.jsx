@@ -22,27 +22,30 @@ function BookingForm({ type, id }) {
   };
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        
+      <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">Book Your Reservation</h2>
         <input
           placeholder="name"
           value={user}
           onChange={(e) => setUser(e.target.value)}
           required
+          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           placeholder="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           placeholder="Details such as dates, guests, ..."
           value={details}
           onChange={(e) => setDetails(e.target.value)}
           required
+          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button type="submit">Book</button>
+        <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">Book Now!</button>
         {message && <div>{message}</div>}
       </form>
     </div>

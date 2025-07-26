@@ -23,14 +23,13 @@ export default function AddFlightForm() {
       const res = await fetch("/api/flights", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, airline, from, to, departureTime, arrivalTime }),
+        body: JSON.stringify({ airline, from, to, departureTime, arrivalTime }),
       });
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || "Failed to add flight");
       }
       // On success: reset form, then refresh current route to fetch updated flights
-      setName("");
       setAirline("");
       setFrom("");
       setTo("");
@@ -48,13 +47,6 @@ export default function AddFlightForm() {
     <form onSubmit={handleSubmit} className="mt-6 p-4 border rounded bg-white max-w-md">
       <h3 className="text-lg font-semibold mb-3 text-blue-700">Add New Flight</h3>
       {error && <p className="text-red-600 mb-2">{error}</p>}
-      <input
-       className="block w-full mb-2 p-2 border rounded"
-        placeholder="Flight Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
       <input
        className="block w-full mb-2 p-2 border rounded"
         placeholder="Flight Name"
