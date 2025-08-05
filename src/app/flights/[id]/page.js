@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import FlightCard from "@/components/FlightCard";
 import BookingForm from "@/components/BookingForm";
 
 export default function FlightDetail() {
@@ -22,11 +23,24 @@ export default function FlightDetail() {
 
   return (
     <div>
-      
-      <h2>{flight.name}</h2>
-      <p>{flight.description}</p>
+      <h1>
+        {flight.airline} {flight.flightNumber}
+      </h1>
+      <p>
+        {flight.from} &rarr; {flight.to}
+      </p>
+      <p>
+        Departs: {flight.departureTime} | Arrives: {flight.arrivalTime}
+      </p>
+      <p>Seats Available: {flight.seatsAvailable}</p>
+      <p>Price: ${flight.price}</p>
+      <p>{flight.details}</p>
+
+      <ul>
+        <FlightCard key={flight._id} flight={flight} />
+      </ul>
+
       <BookingForm type="flights" id={flight._id} />
     </div>
   );
 }
-

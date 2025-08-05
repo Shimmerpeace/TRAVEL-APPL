@@ -21,8 +21,7 @@ export default function HotelDetail() {
   if (!hotel) return <div>Loading...</div>;
 
   return (
-    <div>
-      
+    <div>      
       <h2>{hotel.name}</h2>
       <p>{hotel.description}</p>
       <BookingForm type="hotels" id={hotel._id} />

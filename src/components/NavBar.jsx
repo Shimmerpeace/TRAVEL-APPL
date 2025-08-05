@@ -16,6 +16,7 @@ export default function NavBar() {
       <a href="/vacations" className="text-gray-700 hover:text-purple-700">
         Vacation Packages
       </a>
+      <a href="/example">Example</a>
     </nav>
   );
 }

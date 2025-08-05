@@ -15,7 +15,18 @@ export async function GET() {
     );
   }
 }
-
+/**
+ export async function GET(req) {
+   await databaseConnection();
+  const url = new URL(req.url);
+  const location = url.searchParams.get('location');
+  let query = {};
+  if (location) query.location = { $regex: location, $options: "i" };
+  const hotels = await Hotel.find(query).limit(20);
+  return Response.json(hotels);
+}
+ 
+ */
 export async function POST(req) {
   try {
     await databaseConnection();
