@@ -1,11 +1,13 @@
 // components/NavBar.jsx
+
 "use client";
 import Link from "next/link";
 import { useState } from "react";
 
 export default function NavBar() {
-  const [transportOpen, setTransportOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [transportOpen, setTransportOpen] = useState(false); // desktop dropdown
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // mobile menu
+  const [mobileTransportOpen, setMobileTransportOpen] = useState(false); // mobile dropdown
 
   const baseLinkClass =
     "text-gray-700 font-medium hover:text-blue-700 transition-colors duration-150";
@@ -47,8 +49,7 @@ export default function NavBar() {
               aria-expanded={transportOpen}
               className={`${baseLinkClass} flex items-center gap-1`}
             >
-              Transport
-              <span className="text-xs">▼</span>
+              Transport <span className="text-xs">▼</span>
             </button>
 
             {transportOpen && (
@@ -75,7 +76,7 @@ export default function NavBar() {
           </div>
         </div>
 
-        {/* Mobile Hamburger Button */}
+        {/* Mobile Hamburger */}
         <button
           className="md:hidden flex items-center text-gray-700 focus:outline-none"
           onClick={() => setMobileMenuOpen((prev) => !prev)}
@@ -133,21 +134,29 @@ export default function NavBar() {
             </Link>
           </li>
 
-          {/* Mobile Transport Dropdown */}
-          <li>
-            <details className="group">
-              <summary
-                className={`${baseLinkClass} flex justify-between items-center cursor-pointer`}
-              >
-                Transport
-                <span className="text-xs">▼</span>
-              </summary>
+          {/* Mobile Transport Dropdown - Animated Slide Down */}
+          <li className="flex flex-col">
+            <button
+              onClick={() => setMobileTransportOpen((prev) => !prev)}
+              className={`${baseLinkClass} flex justify-between items-center`}
+              aria-expanded={mobileTransportOpen}
+            >
+              Transport <span className="text-xs">▼</span>
+            </button>
+            <div
+              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                mobileTransportOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
               <ul className="mt-2 ml-4 space-y-2">
                 <li>
                   <Link
                     href="/pages/transport/flights"
                     className={dropdownItemClass}
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setMobileTransportOpen(false);
+                    }}
                   >
                     Flights
                   </Link>
@@ -156,7 +165,10 @@ export default function NavBar() {
                   <Link
                     href="/pages/transport/buses"
                     className={dropdownItemClass}
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setMobileTransportOpen(false);
+                    }}
                   >
                     Buses
                   </Link>
@@ -165,17 +177,20 @@ export default function NavBar() {
                   <Link
                     href="/pages/transport/trains"
                     className={dropdownItemClass}
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setMobileTransportOpen(false);
+                    }}
                   >
                     Trains
                   </Link>
                 </li>
               </ul>
-            </details>
+            </div>
           </li>
         </ul>
       </div>
     </nav>
   );
 }
-         
+

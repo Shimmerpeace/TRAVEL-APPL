@@ -48,34 +48,42 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 relative">
-      <header className="text-center py-6 bg-blue-600 text-white mb-6 relative">
-        <h1 className="text-3xl font-bold">
-          Book Flights, Hotels, and Vacation Packages
-        </h1>
+      <header className="bg-blue-600 text-white py-4 px-6 mb-6">
+        <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Title */}
+          <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left">
+            Book Flights, Hotels, and Vacation Packages
+          </h1>
 
-        {/* Auth Button / Profile Box */}
-        <div className="absolute right-8 top-6 flex items-center space-x-4">
-          {user ? (
-            <div className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center font-bold text-lg text-blue-600">
-                {user.name[0]}
+          {/* Auth Button / Profile Box */}
+          <div className="flex items-center gap-4">
+            {user ? (
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center font-bold text-lg text-blue-600"
+                  aria-label={`Profile avatar for ${user.name}`}
+                >
+                  {user.name[0]}
+                </div>
+                <span className="font-medium">{user.name}</span>
+                <button
+                  onClick={() => setUser(null)}
+                  className="text-red-500 border border-red-400 px-3 py-1 rounded-full hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-400"
+                  aria-label="Logout"
+                >
+                  Logout
+                </button>
               </div>
-              <span className="font-medium">{user.name}</span>
+            ) : (
               <button
-                onClick={() => setUser(null)}
-                className="text-red-500 border border-red-400 px-2 ml-2 rounded-full hover:bg-red-50"
+                onClick={() => setAuthModalOpen(true)}
+                className="bg-white text-blue-600 px-4 py-2 rounded-full border border-blue-600 font-semibold shadow hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                aria-label="Login"
               >
-                Logout
+                Login
               </button>
-            </div>
-          ) : (
-            <button
-              onClick={() => setAuthModalOpen(true)}
-              className="bg-white text-blue-600 px-4 py-2 rounded-full border border-blue-600 font-semibold shadow hover:bg-blue-100"
-            >
-              Login
-            </button>
-          )}
+            )}
+          </div>
         </div>
       </header>
 
