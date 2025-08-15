@@ -4,6 +4,87 @@
 import Link from "next/link";
 import { useState } from "react";
 import AuthModal from "@/components/AuthModal";
+import DesktopMenu from "./DesktopMenu";
+import MobileMenu from "./MobileMenu";
+import AuthControls from "./AuthControls";
+
+export default function Navbar() {
+  const [transportOpen, setTransportOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileTransportOpen, setMobileTransportOpen] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  return (
+    <>
+      <nav className="bg-gray-50 shadow-md sticky top-0 z-50">
+        <div className="container mx-auto flex items-center justify-between py-3 px-6">
+          {/* Brand */}
+          <h1 className="text-lg font-bold text-blue-700">
+            <Link href="/">TravelHeirs</Link>
+          </h1>
+
+          {/* Desktop Menu */}
+          <DesktopMenu
+            transportOpen={transportOpen}
+            setTransportOpen={setTransportOpen}
+          />
+
+          {/* Desktop Auth */}
+          <div className="hidden md:flex items-center gap-4">
+            <AuthControls
+              user={user}
+              onLoginClick={() => setAuthModalOpen(true)}
+              onLogout={() => setUser(null)}
+            />
+          </div>
+
+          {/* Mobile Hamburger */}
+          <button
+            className="md:hidden flex items-center text-gray-700 focus:outline-none"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <span className="text-2xl">&times;</span>
+            ) : (
+              <span className="text-2xl">&#9776;</span>
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <MobileMenu
+          mobileMenuOpen={mobileMenuOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+          mobileTransportOpen={mobileTransportOpen}
+          setMobileTransportOpen={setMobileTransportOpen}
+          user={user}
+          onLoginClick={() => setAuthModalOpen(true)}
+          onLogout={() => setUser(null)}
+        />
+      </nav>
+
+      {/* Authentication Modal */}
+      <AuthModal
+        open={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        onLogin={(userData) => {
+          setUser(userData);
+          setAuthModalOpen(false);
+        }}
+      />
+    </>
+  );
+}
+
+
+/*
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import AuthModal from "@/components/AuthModal";
 
 export default function Navbar() {
   // State for menus
@@ -24,12 +105,12 @@ export default function Navbar() {
     <>
       <nav className="bg-gray-50 shadow-md sticky top-0 z-50">
         <div className="container mx-auto flex items-center justify-between py-3 px-6">
-          {/* Brand */}
+          {/* Brand *
           <h1 className="text-lg font-bold text-blue-700">
             <Link href="/">TravelHeirs</Link>
           </h1>
 
-          {/* Desktop Menu */}
+          {/* Desktop Menu 
           <div className="hidden md:flex items-center gap-6 relative">
             <Link
               href="/"
@@ -37,17 +118,17 @@ export default function Navbar() {
             >
               Home
             </Link>
-            <Link href="/pages/hotels" className={baseLinkClass}>
+            <Link href="/hotels" className={baseLinkClass}>
               Hotels
             </Link>
-            <Link href="/pages/vacations" className={baseLinkClass}>
+            <Link href="/vacations" className={baseLinkClass}>
               Vacation Packages
             </Link>
-            <Link href="/pages/example" className={baseLinkClass}>
+            <Link href="/example" className={baseLinkClass}>
               Example
             </Link>
 
-            {/* Transport Dropdown */}
+            {/* Transport Dropdown *
             <div
               className="relative"
               onMouseEnter={() => setTransportOpen(true)}
@@ -73,7 +154,7 @@ export default function Navbar() {
                   <ul className="py-1">
                     <li>
                       <Link
-                        href="/pages/transport/flights"
+                        href="transport/flights"
                         className={dropdownItemClass}
                       >
                         Flights
@@ -81,7 +162,7 @@ export default function Navbar() {
                     </li>
                     <li>
                       <Link
-                        href="/pages/transport/buses"
+                        href="transport/buses"
                         className={dropdownItemClass}
                       >
                         Buses
@@ -89,7 +170,7 @@ export default function Navbar() {
                     </li>
                     <li>
                       <Link
-                        href="/pages/transport/trains"
+                        href="transport/trains"
                         className={dropdownItemClass}
                       >
                         Trains
@@ -101,7 +182,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Desktop Auth Button */}
+          {/* Desktop Auth Button *
           <div className="hidden md:flex items-center gap-4">
             {user ? (
               <div className="flex items-center gap-3">
@@ -129,7 +210,7 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile Hamburger */}
+          {/* Mobile Hamburger 
           <button
             className="md:hidden flex items-center text-gray-700 focus:outline-none"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
@@ -143,7 +224,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu 
         <div
           className={`md:hidden bg-white border-t border-gray-200 overflow-hidden transition-all duration-300 ease-in-out ${
             mobileMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
@@ -161,7 +242,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link
-                href="/pages/hotels"
+                href="/hotels"
                 className={baseLinkClass}
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -170,7 +251,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link
-                href="/pages/vacations"
+                href="/vacations"
                 className={baseLinkClass}
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -179,7 +260,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link
-                href="/pages/example"
+                href="/example"
                 className={baseLinkClass}
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -187,7 +268,7 @@ export default function Navbar() {
               </Link>
             </li>
 
-            {/* Mobile Transport Dropdown */}
+            {/* Mobile Transport Dropdown 
             <li className="flex flex-col">
               <button
                 onClick={() => setMobileTransportOpen((prev) => !prev)}
@@ -212,7 +293,7 @@ export default function Navbar() {
                 <ul className="mt-2 ml-4 space-y-2">
                   <li>
                     <Link
-                      href="/pages/transport/flights"
+                      href="/transport/flights"
                       className={dropdownItemClass}
                       onClick={() => {
                         setMobileMenuOpen(false);
@@ -224,7 +305,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <Link
-                      href="/pages/transport/buses"
+                      href="/transport/buses"
                       className={dropdownItemClass}
                       onClick={() => {
                         setMobileMenuOpen(false);
@@ -236,7 +317,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <Link
-                      href="/pages/transport/trains"
+                      href="/transport/trains"
                       className={dropdownItemClass}
                       onClick={() => {
                         setMobileMenuOpen(false);
@@ -250,7 +331,7 @@ export default function Navbar() {
               </div>
             </li>
 
-            {/* Mobile Auth */}
+            {/* Mobile Auth 
             <li>
               {user ? (
                 <div className="flex items-center gap-3 mt-4">
@@ -287,7 +368,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Authentication Modal */}
+      {/* Authentication Modal 
       <AuthModal
         open={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
@@ -299,3 +380,4 @@ export default function Navbar() {
     </>
   );
 }
+*/

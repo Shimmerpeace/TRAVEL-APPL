@@ -1,0 +1,398 @@
+Gotcha ✅
+You now want the merged navbar (which currently has everything in one big file) to keep looking exactly the same in the UI, but split the inner pieces into smaller, reusable components — then import and compose them inside the merged Navbar.jsx.
+
+This will make the file maintainable without breaking its styling or behavior.
+
+Plan
+From the merged file, we can extract:
+
+DesktopMenu.jsx – Links & dropdowns for desktop view.
+
+MobileMenu.jsx – Slide-out menu for mobile view.
+
+AuthControls.jsx – Handles login/logout buttons and profile UI (used in both desktop and mobile).
+
+TransportDropdown.jsx – The reusable transport links dropdown list.
+
+Keep Navbar.jsx only as the container that assembles them.
+
+Keep state (user, mobile menu open, etc.) in Navbar.jsx and pass it down via props.
+
+Example Structure
+components/Navbar/Navbar.jsx
+
+jsx
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import AuthModal from "@/components/AuthModal";
+import DesktopMenu from "./DesktopMenu";
+import MobileMenu from "./MobileMenu";
+import AuthControls from "./AuthControls";
+
+export default function Navbar() {
+  const [transportOpen, setTransportOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileTransportOpen, setMobileTransportOpen] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  return (
+    <>
+      <nav className="bg-gray-50 shadow-md sticky top-0 z-50">
+        <div className="container mx-auto flex items-center justify-between py-3 px-6">
+          {/* Brand */}
+          <h1 className="text-lg font-bold text-blue-700">
+            <Link href="/">TravelHeirs</Link>
+          </h1>
+
+          {/* Desktop Menu */}
+          <DesktopMenu
+            transportOpen={transportOpen}
+            setTransportOpen={setTransportOpen}
+          />
+
+          {/* Desktop Auth */}
+          <div className="hidden md:flex items-center gap-4">
+            <AuthControls
+              user={user}
+              onLoginClick={() => setAuthModalOpen(true)}
+              onLogout={() => setUser(null)}
+            />
+          </div>
+
+          {/* Mobile Hamburger */}
+          <button
+            className="md:hidden flex items-center text-gray-700 focus:outline-none"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <span className="text-2xl">&times;</span>
+            ) : (
+              <span className="text-2xl">&#9776;</span>
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <MobileMenu
+          mobileMenuOpen={mobileMenuOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+          mobileTransportOpen={mobileTransportOpen}
+          setMobileTransportOpen={setMobileTransportOpen}
+          user={user}
+          onLoginClick={() => setAuthModalOpen(true)}
+          onLogout={() => setUser(null)}
+        />
+      </nav>
+
+      {/* Authentication Modal */}
+      <AuthModal
+        open={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        onLogin={(userData) => {
+          setUser(userData);
+          setAuthModalOpen(false);
+        }}
+      />
+    </>
+  );
+}
+components/Navbar/DesktopMenu.jsx
+
+jsx
+"use client";
+
+import Link from "next/link";
+import TransportDropdown from "./TransportDropdown";
+
+export default function DesktopMenu({ transportOpen, setTransportOpen }) {
+  const baseLinkClass =
+    "text-gray-700 font-medium hover:text-blue-700 transition-colors duration-150";
+
+  return (
+    <div className="hidden md:flex items-center gap-6 relative">
+      <Link
+        href="/"
+        className={`${baseLinkClass} text-blue-700 font-semibold`}
+      >
+        Home
+      </Link>
+      <Link href="/pages/hotels" className={baseLinkClass}>
+        Hotels
+      </Link>
+      <Link href="/pages/vacations" className={baseLinkClass}>
+        Vacation Packages
+      </Link>
+      <Link href="/pages/example" className={baseLinkClass}>
+        Example
+      </Link>
+
+      <TransportDropdown
+        transportOpen={transportOpen}
+        setTransportOpen={setTransportOpen}
+      />
+    </div>
+  );
+}
+components/Navbar/MobileMenu.jsx
+
+jsx
+"use client";
+
+import Link from "next/link";
+import AuthControls from "./AuthControls";
+import MobileTransportDropdown from "./MobileTransportDropdown";
+
+export default function MobileMenu({
+  mobileMenuOpen,
+  setMobileMenuOpen,
+  mobileTransportOpen,
+  setMobileTransportOpen,
+  user,
+  onLoginClick,
+  onLogout,
+}) {
+  const baseLinkClass =
+    "text-gray-700 font-medium hover:text-blue-700 transition-colors duration-150";
+
+  return (
+    <div
+      className={`md:hidden bg-white border-t border-gray-200 overflow-hidden transition-all duration-300 ease-in-out ${
+        mobileMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+      }`}
+    >
+      <ul className="flex flex-col p-4 space-y-3">
+        <li>
+          <Link
+            href="/"
+            className={`${baseLinkClass} block`}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/pages/hotels"
+            className={baseLinkClass}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Hotels
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/pages/vacations"
+            className={baseLinkClass}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Vacation Packages
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/pages/example"
+            className={baseLinkClass}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Example
+          </Link>
+        </li>
+
+        {/* Mobile Transport */}
+        <MobileTransportDropdown
+          mobileTransportOpen={mobileTransportOpen}
+          setMobileTransportOpen={setMobileTransportOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+        />
+
+        {/* Mobile Auth */}
+        <li>
+          <AuthControls
+            user={user}
+            onLoginClick={() => {
+              onLoginClick();
+            }}
+            onLogout={() => {
+              onLogout();
+              setMobileMenuOpen(false);
+            }}
+            mobile
+          />
+        </li>
+      </ul>
+    </div>
+  );
+}
+components/Navbar/AuthControls.jsx
+
+jsx
+"use client";
+
+export default function AuthControls({ user, onLoginClick, onLogout, mobile }) {
+  if (user) {
+    return (
+      <div
+        className={`flex items-center gap-3 ${mobile ? "mt-4" : ""}`}
+      >
+        <div
+          className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center font-bold text-lg text-blue-600"
+          aria-label={`Profile avatar for ${user.name}`}
+        >
+          {user.name[0]}
+        </div>
+        <span className="font-medium">{user.name}</span>
+        <button
+          onClick={onLogout}
+          className="text-red-500 border border-red-400 px-3 py-1 rounded-full hover:bg-red-50"
+        >
+          Logout
+        </button>
+      </div>
+    );
+  }
+  return (
+    <button
+      onClick={onLoginClick}
+      className={`bg-white text-blue-600 px-4 py-2 rounded-full border border-blue-600 font-semibold shadow hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+        mobile ? "w-full bg-blue-600 text-white hover:bg-blue-700 mt-4" : ""
+      }`}
+    >
+      Login
+    </button>
+  );
+}
+components/Navbar/TransportDropdown.jsx
+
+jsx
+"use client";
+
+import Link from "next/link";
+
+export default function TransportDropdown({ transportOpen, setTransportOpen }) {
+  const baseLinkClass =
+    "text-gray-700 font-medium hover:text-blue-700 transition-colors duration-150";
+  const dropdownItemClass =
+    "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-150";
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setTransportOpen(true)}
+      onMouseLeave={() => setTransportOpen(false)}
+    >
+      <button
+        onClick={() => setTransportOpen((prev) => !prev)}
+        aria-haspopup="true"
+        aria-expanded={transportOpen}
+        className={`${baseLinkClass} flex items-center gap-1`}
+      >
+        Transport <span className="text-xs">▼</span>
+      </button>
+
+      {transportOpen && (
+        <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <ul className="py-1">
+            <li>
+              <Link href="/pages/transport/flights" className={dropdownItemClass}>
+                Flights
+              </Link>
+            </li>
+            <li>
+              <Link href="/pages/transport/buses" className={dropdownItemClass}>
+                Buses
+              </Link>
+            </li>
+            <li>
+              <Link href="/pages/transport/trains" className={dropdownItemClass}>
+                Trains
+              </Link>
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+components/Navbar/MobileTransportDropdown.jsx
+
+jsx
+"use client";
+
+import Link from "next/link";
+
+export default function MobileTransportDropdown({
+  mobileTransportOpen,
+  setMobileTransportOpen,
+  setMobileMenuOpen,
+}) {
+  const baseLinkClass =
+    "text-gray-700 font-medium hover:text-blue-700 transition-colors duration-150";
+  const dropdownItemClass =
+    "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-150";
+
+  return (
+    <li className="flex flex-col">
+      <button
+        onClick={() => setMobileTransportOpen((prev) => !prev)}
+        className={`${baseLinkClass} flex justify-between items-center`}
+        aria-expanded={mobileTransportOpen}
+      >
+        Transport <span className="text-xs">▼</span>
+      </button>
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          mobileTransportOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <ul className="mt-2 ml-4 space-y-2">
+          <li>
+            <Link
+              href="/pages/transport/flights"
+              className={dropdownItemClass}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setMobileTransportOpen(false);
+              }}
+            >
+              Flights
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/pages/transport/buses"
+              className={dropdownItemClass}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setMobileTransportOpen(false);
+              }}
+            >
+              Buses
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/pages/transport/trains"
+              className={dropdownItemClass}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setMobileTransportOpen(false);
+              }}
+            >
+              Trains
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </li>
+  );
+}
+✅ Benefits
+UI still exactly the same, but every section is isolated.
+
+Easier to maintain and reuse: AuthControls can be shared across desktop/mobile.
+
+Future-proof: If you change dropdown items or styling, you only update one small file.

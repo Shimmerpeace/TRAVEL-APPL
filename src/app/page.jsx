@@ -1,43 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import FlightCard from "@/components/FlightCard";
-import HotelCard from "@/components/HotelCard";
-import VacationCard from "@/components/VacationCard";
-import AddFlightForm from "@/components/AddFlightForm";
-import AddHotelForm from "@/components/AddHotelForm";
-import AddVacationForm from "@/components/AddVacationForm";
+import { useState } from "react";
+
+import Link from "next/link";
 
 export default function Home() {
-  const [flights, setFlights] = useState([]);
-  const [hotels, setHotels] = useState([]);
-  const [vacations, setVacations] = useState([]);
+  const [service, setService] = useState("flights");
+  const [destination, setDestination] = useState("");
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
 
-  const fetchData = async () => {
-    try {
-      const [flightsRes, hotelsRes, vacationsRes] = await Promise.all([
-        fetch("/api/flights"),
-        fetch("/api/hotels"),
-        fetch("/api/vacations"),
-      ]);
-      const flightsData = await flightsRes.json();
-      const hotelsData = await hotelsRes.json();
-      const vacationsData = await vacationsRes.json();
-
-      setFlights(flightsData);
-      setHotels(hotelsData);
-      setVacations(vacationsData);
-    } catch (err) {
-      console.error("Failed to fetch data:", err);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const handleAdded = () => {
-    fetchData();
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // Replace with your search logic or routing
+    alert(
+      `Searching for ${service} to ${destination}${
+        checkIn ? ` from ${checkIn}` : ""
+      }${checkOut ? ` to ${checkOut}` : ""}`
+    );
   };
 
   return (
@@ -51,64 +31,138 @@ export default function Home() {
       </header>
 
       <main className="container mx-auto px-4 space-y-16">
-        {/* Flights Section */}
-        <section id="flights">
-          <h2 className="text-2xl font-semibold mb-4 border-b pb-2 border-blue-600">
-            Flights
-          </h2>
-          <div className="grid gap-4 md:grid-cols-3">
-            {flights.length === 0 && <p>No flights available.</p>}
-            <ul>
-              {flights.map((flight) => (
-                <li key={flight._id}>
-                  <FlightCard flight={flight} />
-                </li>
-              ))}
-            </ul>
+        {/* Hero Section */}
+        <section className="bg-blue-50 text-center py-12 px-4 md:py-20">
+          <div className="container mx-auto max-w-5xl">
+            <h2 className="text-3xl md:text-5xl font-bold text-blue-700 mb-4">
+              Plan Your Next Adventure Today
+            </h2>
+            <p className="text-lg md:text-xl text-gray-700 mb-6 max-w-2xl mx-auto">
+              Search and book the best flights, hotels, and vacation packages
+              with ease. Your journey starts here.
+            </p>
+            <Link
+              href="/bookingPage"
+              className="inline-block bg-blue-600 text-white px-6 py-3 rounded-full shadow hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+              Start Booking
+            </Link>
+
+            {/* Search Form */}
+            <form
+              onSubmit={handleSearch}
+              className="bg-white rounded-lg shadow-lg p-4 grid gap-4 md:grid-cols-5 items-center text-left"
+              aria-label="Travel Booking Search Form"
+            >
+              {/* Service Type Select */}
+              <select
+                value={service}
+                onChange={(e) => setService(e.target.value)}
+                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 col-span-2 md:col-span-1"
+              >
+                <option value="flights">Flights</option>
+                <option value="hotels">Hotels</option>
+                <option value="vacations">Vacation Packages</option>
+              </select>
+
+              {/* Destination Input */}
+              <input
+                type="text"
+                placeholder="Where to?"
+                value={destination}
+                onChange={(e) => setDestination(e.target.value)}
+                required
+                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 col-span-2"
+              />
+
+              {/* Dates (conditional display for relevant services) */}
+              {service !== "flights" && (
+                <>
+                  <input
+                    type="date"
+                    value={checkIn}
+                    onChange={(e) => setCheckIn(e.target.value)}
+                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  <input
+                    type="date"
+                    value={checkOut}
+                    onChange={(e) => setCheckOut(e.target.value)}
+                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                </>
+              )}
+
+              {/* Search Button */}
+              <button
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-400 w-full md:w-auto"
+              >
+                Search
+              </button>
+            </form>
           </div>
-          <AddFlightForm onAdded={handleAdded} />
         </section>
 
-        {/* Hotels Section */}
-        <section id="hotels">
-          <h2 className="text-2xl font-semibold mb-4 border-b pb-2 border-green-600">
-            Hotels
-          </h2>
-          <div className="grid gap-4 md:grid-cols-3">
-            {hotels.length === 0 && <p>No hotels available.</p>}
-            <ul>
-              {hotels.map((hotel) => (
-                <li key={hotel._id}>
-                  <HotelCard hotel={hotel} />
-                </li>
-              ))}
-            </ul>
-          </div>
-          <AddHotelForm onAdded={handleAdded} />
-        </section>
+        {/* Categories Section */}
+        <section className="container mx-auto py-12 px-4">
+          <h3 className="text-2xl font-bold text-center mb-8 text-gray-800">
+            Explore Our Services
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Flights */}
+            <Link
+              href="/transport/flights"
+              className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6 text-center"
+            >
+              <div className="text-blue-600 text-5xl mb-4">✈️</div>
+              <h4 className="text-lg font-semibold mb-2">Flights</h4>
+              <p className="text-gray-600 text-sm">
+                Find and book flights to destinations worldwide.
+              </p>
+            </Link>
 
-        {/* Vacations Section */}
-        <section id="vacations">
-          <h2 className="text-2xl font-semibold mb-4 border-b pb-2 border-purple-600">
-            Vacation Packages
-          </h2>
-          <div className="grid gap-4 md:grid-cols-3">
-            {vacations.length === 0 && <p>No vacation packages available.</p>}
-            <ul>
-              {vacations.map((vacation) => (
-                <li key={vacation._id}>
-                  <VacationCard vacation={vacation} />
-                </li>
-              ))}
-            </ul>
+            {/* Hotels */}
+            <Link
+              href="/hotels"
+              className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6 text-center"
+            >
+              <div className="text-green-600 text-5xl mb-4">🏨</div>
+              <h4 className="text-lg font-semibold mb-2">Hotels</h4>
+              <p className="text-gray-600 text-sm">
+                Browse and book top-rated hotels at the best prices.
+              </p>
+            </Link>
+
+            {/* Vacations */}
+            <Link
+              href="/vacations"
+              className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6 text-center"
+            >
+              <div className="text-purple-600 text-5xl mb-4">🌴</div>
+              <h4 className="text-lg font-semibold mb-2">Vacation Packages</h4>
+              <p className="text-gray-600 text-sm">
+                Exclusive deals on flights + hotels for a perfect getaway.
+              </p>
+            </Link>
+
+            {/* Transport */}
+            <Link
+              href="/transport"
+              className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6 text-center"
+            >
+              <div className="text-orange-600 text-5xl mb-4">🚌</div>
+              <h4 className="text-lg font-semibold mb-2">Transport</h4>
+              <p className="text-gray-600 text-sm">
+                Buses, trains, and more — travel made easy.
+              </p>
+            </Link>
           </div>
-          <AddVacationForm onAdded={handleAdded} />
         </section>
       </main>
     </div>
   );
 }
-
 
 /*
 "use client";
@@ -152,4 +206,5 @@ export default function Home() {
     </>
   );
 }
+
   */

@@ -1,4 +1,6 @@
 //components/BookingForm
+"use client";
+
 import { useState } from "react";
 
 function BookingForm({ type, id }) {
