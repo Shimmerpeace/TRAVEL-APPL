@@ -34,7 +34,7 @@ export default function MobileMenu({
         </li>
         <li>
           <Link
-            href="/pages/hotels"
+            href="/hotels"
             className={baseLinkClass}
             onClick={() => setMobileMenuOpen(false)}
           >
@@ -43,7 +43,7 @@ export default function MobileMenu({
         </li>
         <li>
           <Link
-            href="/pages/vacations"
+            href="/vacations"
             className={baseLinkClass}
             onClick={() => setMobileMenuOpen(false)}
           >
@@ -52,7 +52,7 @@ export default function MobileMenu({
         </li>
         <li>
           <Link
-            href="/pages/example"
+            href="/example"
             className={baseLinkClass}
             onClick={() => setMobileMenuOpen(false)}
           >

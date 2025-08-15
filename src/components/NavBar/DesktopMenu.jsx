@@ -15,13 +15,13 @@ export default function DesktopMenu({ transportOpen, setTransportOpen }) {
       >
         Home
       </Link>
-      <Link href="/pages/hotels" className={baseLinkClass}>
+      <Link href="/hotels" className={baseLinkClass}>
         Hotels
       </Link>
-      <Link href="/pages/vacations" className={baseLinkClass}>
+      <Link href="/vacations" className={baseLinkClass}>
         Vacation Packages
       </Link>
-      <Link href="/pages/example" className={baseLinkClass}>
+      <Link href="/example" className={baseLinkClass}>
         Example
       </Link>
 

@@ -21,24 +21,31 @@ export default function TransportDropdown({ transportOpen, setTransportOpen }) {
         aria-expanded={transportOpen}
         className={`${baseLinkClass} flex items-center gap-1`}
       >
-        Transport <span className="text-xs">▼</span>
+        Transport{" "}
+        <span
+          className={`text-xs transform transition-transform duration-200 ${
+            transportOpen ? "rotate-180" : ""
+          }`}
+        >
+          ▼
+        </span>
       </button>
 
       {transportOpen && (
         <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <ul className="py-1">
             <li>
-              <Link href="/pages/transport/flights" className={dropdownItemClass}>
+              <Link href="/transport/flights" className={dropdownItemClass}>
                 Flights
               </Link>
             </li>
             <li>
-              <Link href="/pages/transport/buses" className={dropdownItemClass}>
+              <Link href="/transport/buses" className={dropdownItemClass}>
                 Buses
               </Link>
             </li>
             <li>
-              <Link href="/pages/transport/trains" className={dropdownItemClass}>
+              <Link href="/transport/trains" className={dropdownItemClass}>
                 Trains
               </Link>
             </li>
