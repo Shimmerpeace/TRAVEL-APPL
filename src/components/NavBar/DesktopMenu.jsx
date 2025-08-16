@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import TransportDropdown from "./TransportDropdown";
+import DesktopTransportDropdown from "./DesktopTransportDropdown";
 
 export default function DesktopMenu({ transportOpen, setTransportOpen }) {
   const baseLinkClass =
@@ -15,6 +15,9 @@ export default function DesktopMenu({ transportOpen, setTransportOpen }) {
       >
         Home
       </Link>
+      <Link href="/flights" className={baseLinkClass}>
+        Flights
+      </Link>
       <Link href="/hotels" className={baseLinkClass}>
         Hotels
       </Link>
@@ -25,7 +28,7 @@ export default function DesktopMenu({ transportOpen, setTransportOpen }) {
         Example
       </Link>
 
-      <TransportDropdown
+      <DesktopTransportDropdown
         transportOpen={transportOpen}
         setTransportOpen={setTransportOpen}
       />

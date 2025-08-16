@@ -20,13 +20,14 @@ export default function MobileTransportDropdown({
         className={`${baseLinkClass} flex justify-between items-center`}
         aria-expanded={mobileTransportOpen}
       >
-        Transport  <span
-                  className={`text-xs transform transition-transform duration-200 ${
-                    mobileTransportOpen ? "rotate-180" : ""
-                  }`}
-                >
-                  ▼
-                </span>
+        Transport{" "}
+        <span
+          className={`text-xs transform transition-transform duration-200 ${
+            mobileTransportOpen ? "rotate-180" : ""
+          }`}
+        >
+          ▼
+        </span>
       </button>
       <div
         className={`overflow-hidden transition-all duration-300 ease-in-out ${
@@ -34,18 +35,6 @@ export default function MobileTransportDropdown({
         }`}
       >
         <ul className="mt-2 ml-4 space-y-2">
-          <li>
-            <Link
-              href="/transport/flights"
-              className={dropdownItemClass}
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setMobileTransportOpen(false);
-              }}
-            >
-              Flights
-            </Link>
-          </li>
           <li>
             <Link
               href="/transport/buses"

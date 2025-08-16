@@ -3,7 +3,10 @@
 
 import Link from "next/link";
 
-export default function TransportDropdown({ transportOpen, setTransportOpen }) {
+export default function DesktopTransportDropdown({
+  transportOpen,
+  setTransportOpen,
+}) {
   const baseLinkClass =
     "text-gray-700 font-medium hover:text-blue-700 transition-colors duration-150";
   const dropdownItemClass =
@@ -34,11 +37,6 @@ export default function TransportDropdown({ transportOpen, setTransportOpen }) {
       {transportOpen && (
         <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <ul className="py-1">
-            <li>
-              <Link href="/transport/flights" className={dropdownItemClass}>
-                Flights
-              </Link>
-            </li>
             <li>
               <Link href="/transport/buses" className={dropdownItemClass}>
                 Buses

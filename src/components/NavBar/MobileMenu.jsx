@@ -34,6 +34,15 @@ export default function MobileMenu({
         </li>
         <li>
           <Link
+            href="/flights"
+            className={baseLinkClass}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+           Flights
+          </Link>
+        </li>
+        <li>
+          <Link
             href="/hotels"
             className={baseLinkClass}
             onClick={() => setMobileMenuOpen(false)}
